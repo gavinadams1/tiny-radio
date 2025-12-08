@@ -1,0 +1,14 @@
+[Unit]
+Description=tinyradio.net overlay text updater (Now Playing + Time)
+After=network.target icecast2.service radio.service
+
+[Service]
+User=gavinadamsdev
+Group=gavinadamsdev
+WorkingDirectory=/home/gavinadamsdev/radio
+ExecStart=/home/gavinadamsdev/radio/update_overlay.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

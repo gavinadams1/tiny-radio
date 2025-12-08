@@ -1,0 +1,16 @@
+[Unit]
+Description=Liquidsoap Radio Service
+After=network.target icecast2.service
+
+[Service]
+User=gavinadamsdev
+Group=gavinadamsdev
+WorkingDirectory=/home/gavinadamsdev/radio
+ExecStart=/usr/bin/liquidsoap /home/gavinadamsdev/radio/radio.liq
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

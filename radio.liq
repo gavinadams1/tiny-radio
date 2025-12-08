@@ -1,36 +1,55 @@
-  GNU nano 6.2                                           radio.liq                                              M     
 # Log to stdout
 set("log.stdout", true)
 set("server.telnet", false)
 
-# Playlist of all files in the directory
-music = playlist("/home/gavinadamsdev/radio/music")
+# Base folder
+base = "/home/gavinadamsdev/radio/music"
 
-# If title is empty or 'Unknown', use the filename (without extension)
+# General rotation playlist
+general = playlist(base ^ "/general_rotation")
+
+# Classical playlist
+classical = playlist(base ^ "/classical")
+
+# Wake Up / Wind Down playlist
+wake_up = playlist(base ^ "/wake_up")
+
+# Fix metadata for files with missing titles
 def fix_metadata(m) =
   t = m["title"]
-  # If we already have a decent title, keep it
   if t != "" and t != "Unknown" then
     [("title", t)]
   else
-    # Use the 'filename' field from metadata (Liquidsoap sets this)
-    f = m["filename"]
-    base_name = f
-
+    base_name = m["filename"]
     [("title", base_name)]
   end
 end
 
-# Apply metadata fix, then make it infallible
-radio = mksafe(map_metadata(fix_metadata, music))# Make the source infallible (adds silence if nothing to play)
-radio = mksafe(music)
+# Apply metadata fix to both sources
+general_fixed   = map_metadata(fix_metadata, general)
+classical_fixed = map_metadata(fix_metadata, classical)
+wake_up_fixed = map_metadata(fix_metadata, wake_up)
+
+# Time-based schedule:
+# 15:00–17:00 → classical
+# everything else → general rotation
+radio_sched =
+  switch(track_sensitive=true, [
+    ({05h-08h}, wake_up_fixed),
+    ({15h-17h}, classical_fixed),
+    ({23h-24h}, wake_up_fixed),
+    ({00h-24h}, general_fixed)
+  ])
+
+# Make the source infallible
+radio = mksafe(radio_sched)
 
 # Stream to Icecast as MP3
 output.icecast(
   %mp3(bitrate=128),
   host = "localhost",
   port = 8000,
-  password = "vienna",  # <source-password> from /etc/icecast2/icecast.xml
+  password = "vienna",
   mount = "/radio.mp3",
   name = "Gavin Cloud Radio",
   description = "A simple looping station on Google Cloud",
