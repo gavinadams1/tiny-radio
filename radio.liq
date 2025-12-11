@@ -1,6 +1,11 @@
 # Log to stdout
 set("log.stdout", true)
-set("server.telnet", false)
+
+# turn on telnet
+set("server.telnet", true)
+set("server.telnet.bind_addr", "127.0.0.1")
+set("server.telnet.port", 1234)
+
 
 # Base folder
 base = "/home/gavinadamsdev/radio/music"
