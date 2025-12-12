@@ -40,26 +40,26 @@ radio_sched =
     ({00h-24h}, general_fixed)
   ])
 
-# --- LIVE DJ INPUT ---
-# This opens a small HTTP server inside Liquidsoap.
-# Your DJ client (on your laptop) will connect here.
+# Your scheduled music source
+music = radio_sched
+
+# Live DJ input (harbor)
 dj_live = input.harbor(
-  "live",                     # mount name (for Liquidsoap, not Icecast)
-  port = 8005,                # choose a free port on the VM
-  password = "djpassword",    # set a password for your DJ client
+  "live",
+  port = 8005,
+  password = "djpassword",
   icy = true
 )
 
-# When dj_live is sending audio, we use it.
-# Otherwise we fall back to the scheduled music.
-mixed =
-  fallback(
-    track_sensitive = false,  # switch immediately when live connects/disconnects
-    [dj_live, radio_sched]
+# Talkover: DJ on top, music ducks to e.g. 25% while DJ is connected
+radio_talkover =
+  smooth_add(
+    p = 0.15,          # 0.25 = -12 dB-ish bed; try 0.2–0.4
+    normal = music,
+    special = dj_live
   )
 
-# Make the source infallible
-radio = mksafe(mixed)
+radio = mksafe(radio_talkover)
 
 # Stream to Icecast as MP3
 output.icecast(
