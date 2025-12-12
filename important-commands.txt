@@ -1,2 +1,4 @@
 sudo systemctl restart radio
 sudo systemctl restart youtube-radio
+
+sudo journalctl -u radio -f

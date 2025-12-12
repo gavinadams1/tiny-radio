@@ -47,7 +47,7 @@ dj_live = input.harbor(
   "live",                     # mount name (for Liquidsoap, not Icecast)
   port = 8005,                # choose a free port on the VM
   password = "djpassword",    # set a password for your DJ client
-  icy = true
+  icy = true,
 )
 
 # When dj_live is sending audio, we use it.
@@ -61,15 +61,11 @@ mixed =
 # Make the source infallible
 radio = mksafe(mixed)
 
-# Stream to Icecast as MP3
-output.icecast(
-  %mp3(bitrate=128),
-  host = "localhost",
-  port = 8000,
-  password = "vienna",
-  mount = "/radio.mp3",
-  name = "Gavin Cloud Radio",
-  description = "A simple looping station on Google Cloud",
-  genre = "Various",
-  radio
+
+output.file(
+  %wav,
+  "test_output.wav",
+  radio,
+  fallible=false
 )
+
