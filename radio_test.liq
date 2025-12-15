@@ -8,10 +8,10 @@ set("server.telnet.port", 1234)
 base = "/home/gavinadamsdev/radio/music"
 
 # Playlists
-general   = playlist(mode="random", reload_mode="watch", base ^ "/general_rotation")
-classical = playlist(mode="random", reload_mode="watch", base ^ "/classical")
-wake_up   = playlist(mode="random", reload_mode="watch", base ^ "/wake_up")
-streets_of_paris = playlist(mode="random", reload_mode="watch", base ^ "/streets_of_paris")
+general   = playlist(mode="randomize", reload_mode="watch", base ^ "/general_rotation")
+classical = playlist(mode="randomize", reload_mode="watch", base ^ "/classical")
+wake_up   = playlist(mode="randomize", reload_mode="watch", base ^ "/wake_up")
+streets_of_paris = playlist(mode="randomize", reload_mode="watch", base ^ "/streets_of_paris")
 
 # Fix metadata for files with missing titles
 def fix_metadata(m) =

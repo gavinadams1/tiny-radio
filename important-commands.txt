@@ -1,4 +1,8 @@
 sudo systemctl restart radio
 sudo systemctl restart youtube-radio
 
+-- Get radio logs
 sudo journalctl -u radio -f
+
+-- Control radio via telnet
+telnet localhost 1234
