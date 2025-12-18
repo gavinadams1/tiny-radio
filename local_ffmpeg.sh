@@ -1,4 +1,4 @@
-ffmpeg -loop 1 -i background2.png \
+ffmpeg -loop 1 -i background.jpg \
   -vf "scale=640:360,fps=8" \
   -c:v libx264 -preset slow -tune stillimage \
   -b:v 2500k -maxrate 2500k -bufsize 5000k \

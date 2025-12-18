@@ -6,3 +6,10 @@ sudo journalctl -u radio -f
 
 -- Control radio via telnet
 telnet localhost 1234
+
+-- edit a systemctl command
+sudo nano /etc/systemd/system/youtube-radio.service
+
+-- after updating service commands
+sudo systemctl daemon-reload
+
