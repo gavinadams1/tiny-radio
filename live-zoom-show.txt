@@ -1,0 +1,5 @@
+Have audio set to default PCM device. No headphones connected
+
+Make sure not on eduroam
+
+Should work! 

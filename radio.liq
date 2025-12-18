@@ -33,6 +33,7 @@ streets_of_paris_fixed = map_metadata(fix_metadata, streets_of_paris)
 # everything else → general rotation
 radio_sched =
   switch(track_sensitive=true, [
+    ({00h-05h}, wake_up_fixed),
     ({05h-08h}, wake_up_fixed),
     ({13h-15h}, streets_of_paris_fixed),
     ({15h-17h}, classical_fixed),
