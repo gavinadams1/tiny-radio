@@ -7,7 +7,7 @@ User=gavinadamsdev
 Group=gavinadamsdev
 WorkingDirectory=/home/gavinadamsdev
 
-ExecStart=/usr/bin/ffmpeg -stream_loop -1 -re -i /home/gavinadamsdev/radio/youtube/loop.mp4 -i http://localhost:8000/radio.mp3 -filter_complex "[0:v]scale=640:360,fps=8[v0];[v0]drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:textfile=/home/gavinadamsdev/radio/schedule.txt:reload=1:fontcolor=white:fontsize=16:line_spacing=6:x=20:y=55:box=1:boxcolor=black@0.3:boxborderw=10[v1];[v1]drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:textfile=/home/gavinadamsdev/radio/nowplaying.txt:reload=1:fontcolor=white:fontsize=20:x=(w-text_w)/2:y=h-50:box=1:boxcolor=black@0.0:boxborderw=8[v2];[v2]drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:textfile=/home/gavinadamsdev/radio/time.txt:reload=1:fontcolor=white:fontsize=18:x=w-tw-20:y=20:box=1:boxcolor=black@0.4:boxborderw=8[v]" -map "[v]" -map 1:a -c:v libx264 -preset ultrafast -tune stillimage -b:v 250k -maxrate 250k -bufsize 500k -pix_fmt yuv420p -g 32 -keyint_min 32 -c:a aac -b:a 96k -ar 44100 -f flv "rtmp://a.rtmp.youtube.com/live2/6s2p-ku56-wqf1-7k40-d4ja"
+ExecStart=/home/gavinadamsdev/radio/youtube/youtube_radio.sh
 
 Restart=always
 RestartSec=5
